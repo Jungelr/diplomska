@@ -20,12 +20,13 @@ public class SecurityConfiguration {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 		return httpSecurity
-			.httpBasic(Customizer.withDefaults())
-			.formLogin(Customizer.withDefaults())
-			.logout(Customizer.withDefaults())
-			.exceptionHandling(Customizer.withDefaults())
-			.authorizeHttpRequests(authz -> authz.anyRequest().authenticated())
-			.build();
+				//.requiresChannel( channel -> channel.anyRequest().requiresSecure())
+				.httpBasic(Customizer.withDefaults())
+				.formLogin(Customizer.withDefaults())
+				.logout(Customizer.withDefaults())
+				.exceptionHandling(Customizer.withDefaults())
+				.authorizeHttpRequests(authz -> authz.anyRequest().authenticated())
+				.build();
 	}
 
 	@Bean
