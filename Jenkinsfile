@@ -9,4 +9,5 @@ node {
     stage('Build Docker Image') {
         sh 'docker build -t jungelr/diplomska:0.0.1 .'
     }
+
 }
