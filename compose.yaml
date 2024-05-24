@@ -3,7 +3,7 @@ services:
     build: .
     platform: "linux/arm64"
     ports:
-      - 8080:8080
+      - 8443:8443
     volumes:
       - ${KEY_STORE_PATH}:/etc/ssl/carts/springboot.p12
     environment:
