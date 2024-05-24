@@ -11,6 +11,6 @@ node {
         sh "mvn clean package"
     }
     stage('Build Docker Image') {
-        sh 'docker build -t jungelr/diplomska:0.0.1 .'
+        sh 'docker build -t jungelr/diplomska:0.0.1 . --platform=linux/arm64'
     }
 }
