@@ -1,6 +1,6 @@
 node {
     environment {
-        JAVA_HOME = '/usr/lib/jvm/jdk-22.0.1/bin/java'
+        JAVA_HOME = '/usr/lib/jvm/jdk-22.0.1'
     }
     stage('Clone repostiroy') {
         checkout scm
