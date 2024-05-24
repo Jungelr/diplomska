@@ -9,8 +9,8 @@ pipeline {
         stage('MVN Package'){
             agent {
                 docker {
-                    image 'maven:3.9.6-eclipse-temurin-22-alpine'
-                    args '-v $HOME/.m2:/root/.m2 --platform=linux/arm64/v8'
+                    image 'maven:3.9-eclipse-temurin-22-alpine --platform=linux/arm64/v8'
+                    args '-v $HOME/.m2:/root/.m2'
                 }
             }
             steps {
