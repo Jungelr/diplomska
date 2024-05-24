@@ -1,7 +1,5 @@
 pipeline {
-    agent {
-        docker { image 'maven:3.9.6-eclipse-temurin-22-alpine' }
-    }
+    agent any
     stages {
         stage('Clone repostiroy') {
             steps {
@@ -9,6 +7,9 @@ pipeline {
             }
         }
         stage('MVN Package'){
+            agent {
+                docker { image 'maven:3.9.6-eclipse-temurin-22-alpine' }
+            }
             steps {
                 sh "mvn clean package"
             }
