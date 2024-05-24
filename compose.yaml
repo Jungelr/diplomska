@@ -1,0 +1,12 @@
+services:
+  web:
+    build: .
+    ports:
+      - 8080:8080
+    volumes:
+      - ${KEY_STORE_PATH}:/etc/ssl/carts/springboot.p12
+    environment:
+      - server.ssl.key-store-password=${KEY_STORE_PASSWORD}
+      - server.ssl.key-password=${KEY_STORE_PASSWORD}
+  
+    

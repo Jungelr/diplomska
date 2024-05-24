@@ -14,9 +14,9 @@ pipeline {
                 sh "mvn clean package"
             }
         }
-        stage('Build Docker Image') {
+        stage('Deploy') {
             steps {
-                sh 'docker build -t jungelr/diplomska:0.0.1 . --platform=linux/arm64'
+                sh "docker compose -e KEY_STORE_PATH=${KEY_STORE_PATH} -e KEY_STORE_PASSWORD=${KEY_STORE_PASSWORD} up -d"
             }
         }
     }
