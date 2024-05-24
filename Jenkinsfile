@@ -8,7 +8,10 @@ pipeline {
         }
         stage('MVN Package'){
             agent {
-                docker { image 'maven:3.9.6-eclipse-temurin-22-alpine' }
+                docker {
+                    image 'maven:3.9.6-eclipse-temurin-22-alpine'
+                    platform: linux/amd64
+                }
             }
             steps {
                 sh "mvn clean package"
