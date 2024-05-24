@@ -7,6 +7,9 @@ pipeline {
             }
         }
         stage('MVN Package'){
+            tools {
+                jdk "jdk-22.0.1"
+            }
             steps {
                 sh "mvn clean package"
             }
