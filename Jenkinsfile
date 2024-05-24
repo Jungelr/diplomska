@@ -10,7 +10,7 @@ pipeline {
             agent {
                 docker {
                     image 'maven:3.9.6-eclipse-temurin-22-alpine'
-                    args '-v $HOME/.m2:/root/.m2 --platform=linux/arm64'
+                    args '-v $HOME/.m2:/root/.m2 --platform=linux/arm64/v8'
                 }
             }
             steps {
