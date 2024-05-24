@@ -16,7 +16,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                sh "docker compose -e KEY_STORE_PATH=${KEY_STORE_PATH} -e KEY_STORE_PASSWORD=${KEY_STORE_PASSWORD} up -d"
+                sh "docker compose -e KEY_STORE_PATH=$KEY_STORE_PATH -e KEY_STORE_PASSWORD=$KEY_STORE_PASSWORD up -d"
             }
         }
     }
