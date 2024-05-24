@@ -16,8 +16,8 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                withCredentials([string(credentialsId: 'KEY_STORE_PATH', variable: 'KEY_STORE_PATH'), string(credentialsId: 'KEY_STORE_PASSWORD', variable: 'KEY_STORE_PASSWORD')]) {
-                    sh "docker compose --env KEY_STORE_PATH=$KEY_STORE_PATH --env KEY_STORE_PASSWORD=$KEY_STORE_PASSWORD up -d"
+                withCredentials([file(credentialsId: 'KEY_STORE', variable: 'KEYSTORE')]) {
+                    sh "docker compose --env-file $KEYSTORE up -d"
                 }
             }
         }
