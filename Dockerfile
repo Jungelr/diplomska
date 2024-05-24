@@ -1,3 +1,3 @@
-FROM arm64v8/openjdk:22
+FROM openjdk:22-jdk-bookworm
 COPY target/*.jar app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
