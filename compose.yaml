@@ -1,7 +1,7 @@
 services:
   web:
     build: .
-    platform: "linux/arm"
+    platform: "linux/arm64"
     ports:
       - 8443:8443
     volumes:
