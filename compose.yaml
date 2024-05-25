@@ -1,7 +1,7 @@
 services:
   web:
     build: .
-    platform: "linux/arm64"
+    platform: "linux/arm"
     ports:
       - 8443:8443
     volumes:
@@ -9,4 +9,4 @@ services:
     environment:
       - server.ssl.key-store-password=${KEY_STORE_PASSWORD}
       - server.ssl.key-password=${KEY_STORE_PASSWORD}
-      - "SPRING_PROFILES_ACTIVE=prod"
+      - SPRING_PROFILES_ACTIVE=prod
