@@ -17,7 +17,9 @@ pipeline {
         stage('Deploy') {
             steps {
                 withCredentials([file(credentialsId: 'KEY_STORE', variable: 'KEYSTORE')]) {
-                    bash 'screen -dmS "diplomska" bash -c "docker compose --env-file $KEYSTORE up -d"'
+                    sh 'screen -dmS diplomska'
+                    sh 'docker compose --env-file $KEYSTORE up -d'
+                    sh 'exit'
                 }
             }
         }
