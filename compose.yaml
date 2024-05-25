@@ -9,4 +9,5 @@ services:
     environment:
       - server.ssl.key-store-password=${KEY_STORE_PASSWORD}
       - server.ssl.key-password=${KEY_STORE_PASSWORD}
+      - server.ssl.key-store=file:/etc/ssl/certs/springboot.p12
       - SPRING_PROFILES_ACTIVE=prod
