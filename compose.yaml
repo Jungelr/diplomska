@@ -5,7 +5,7 @@ services:
     ports:
       - 8443:8443
     volumes:
-      - ${KEY_STORE_PATH}:/etc/ssl/carts/springboot.p12
+      - ${KEY_STORE_PATH}:/etc/ssl/certs/springboot.p12
     environment:
       - server.ssl.key-store-password=${KEY_STORE_PASSWORD}
       - server.ssl.key-password=${KEY_STORE_PASSWORD}
