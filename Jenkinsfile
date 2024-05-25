@@ -11,7 +11,7 @@ pipeline {
                 jdk "jdk-22.0.1"
             }
             steps {
-                sh "mvn clean package"
+                sh "mvn clean package -Pprod"
             }
         }
         stage('Deploy') {
