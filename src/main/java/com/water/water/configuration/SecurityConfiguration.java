@@ -20,7 +20,7 @@ public class SecurityConfiguration {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 		return httpSecurity
-				//.requiresChannel( channel -> channel.anyRequest().requiresSecure())
+				.requiresChannel( channel -> channel.anyRequest().requiresSecure())
 				.httpBasic(Customizer.withDefaults())
 				.formLogin(Customizer.withDefaults())
 				.logout(Customizer.withDefaults())
