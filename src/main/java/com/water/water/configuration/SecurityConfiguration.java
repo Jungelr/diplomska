@@ -12,6 +12,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration(proxyBeanMethods = false)
 @EnableWebSecurity
@@ -19,13 +21,15 @@ public class SecurityConfiguration {
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+
 		return httpSecurity
+				.csrf(csrf -> csrf.ignoringRequestMatchers("/update/upload"))
 				.requiresChannel( channel -> channel.anyRequest().requiresSecure())
 				.httpBasic(Customizer.withDefaults())
 				.formLogin(Customizer.withDefaults())
 				.logout(Customizer.withDefaults())
 				.exceptionHandling(Customizer.withDefaults())
-				.authorizeHttpRequests(authz -> authz.anyRequest().authenticated())
+				.authorizeHttpRequests(auths -> auths.anyRequest().authenticated())
 				.build();
 	}
 
@@ -44,7 +48,19 @@ public class SecurityConfiguration {
 			.roles("USER", "ADMIN")
 			.build();
 
-		return new InMemoryUserDetailsManager(user, admin);
+		UserDetails jenkins = User.withUsername("jenkins")
+			.passwordEncoder(passwordEncoder::encode)
+			.password("jenkins")
+			.roles("JENKINS")
+			.build();
+
+		UserDetails arduinoUser = User.withUsername("arduino_user")
+				.passwordEncoder(passwordEncoder::encode)
+				.password("arduino_user")
+				.roles("ARDUINO_USER")
+				.build();
+
+		return new InMemoryUserDetailsManager(user, admin, jenkins, arduinoUser);
 	}
 
 	@Bean

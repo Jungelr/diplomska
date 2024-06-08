@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
-@Controller("/")
+@Controller
 @RequiredArgsConstructor
 public class PlantController {
 
