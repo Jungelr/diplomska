@@ -14,6 +14,11 @@ pipeline {
                 sh "mvn clean package -Pprod"
             }
         }
+        stage('Build') {
+            steps {
+                sh 'docker build -t jungelr/diplomska .'
+            }
+        }
         stage('Deploy') {
             steps {
                 withCredentials([file(credentialsId: 'KEY_STORE', variable: 'KEYSTORE')]) {
