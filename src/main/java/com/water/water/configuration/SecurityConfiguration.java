@@ -3,7 +3,6 @@ package com.water.water.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -16,7 +15,6 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration(proxyBeanMethods = false)
 @EnableWebSecurity
-@EnableMethodSecurity
 public class SecurityConfiguration {
 
 	@Bean
@@ -29,7 +27,10 @@ public class SecurityConfiguration {
 				.formLogin(Customizer.withDefaults())
 				.logout(Customizer.withDefaults())
 				.exceptionHandling(Customizer.withDefaults())
-				.authorizeHttpRequests(auths -> auths.anyRequest().authenticated())
+				.authorizeHttpRequests(auths -> auths
+						.requestMatchers("/update/upload").hasRole("JENKINS")
+						.requestMatchers("/update/latest/**").hasRole("ARDUINO_USER")
+						.anyRequest().authenticated())
 				.build();
 	}
 
