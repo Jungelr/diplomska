@@ -22,7 +22,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 withCredentials([file(credentialsId: 'KEY_STORE', variable: 'KEYSTORE')]) {
-                    sh 'docker compose build --env-file $KEYSTORE up -d'
+                    sh 'docker compose --env-file $KEYSTORE up -d'
                 }
             }
         }
