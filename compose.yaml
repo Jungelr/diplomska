@@ -1,6 +1,7 @@
 services:
   web:
     image: jungelr/diplomska
+    container_name: webapp
     platform: "linux/arm64"
     ports:
       - 8443:8443
