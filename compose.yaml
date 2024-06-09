@@ -6,6 +6,7 @@ services:
       - 8443:8443
     volumes:
       - ${KEY_STORE_PATH}:/etc/ssl/certs/springboot.p12
+    restart: always
     depends_on:
       - db
     environment:
@@ -19,6 +20,9 @@ services:
   db:
     image: postgres:16.3-alpine3.20
     container_name: db
+    restart: always
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - /mnt/nvme/data:/var/lib/postgresql/data
