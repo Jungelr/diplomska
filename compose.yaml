@@ -6,6 +6,8 @@ services:
       - 8443:8443
     volumes:
       - ${KEY_STORE_PATH}:/etc/ssl/certs/springboot.p12
+    depends_on:
+      - db
     environment:
       - server.ssl.key-store-password=${KEY_STORE_PASSWORD}
       - server.ssl.key-password=${KEY_STORE_PASSWORD}
@@ -13,6 +15,7 @@ services:
       - SPRING_PROFILES_ACTIVE=prod
       - spring.datasource.username=${POSTGRES_USER}
       - spring.datasource.password=${POSTGRES_PASSWORD}
+      - spring.datasource.url=jdbc:postgresql://db:5432/postgres?currentSchema=public
   db:
     image: postgres:16.3-alpine3.20
     container_name: db
