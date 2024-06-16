@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.MessageDigest;
+import java.util.Base64;
 
 @RequiredArgsConstructor
 @Service
@@ -25,7 +26,7 @@ public class UpdateServiceImpl implements UpdateService {
 
     MessageDigest digest = MessageDigest.getInstance("SHA-256");
 
-    byte[] file = updateDto.getContentAsByteArray();
+    byte[] file = Base64.getEncoder().encode(updateDto.getContentAsByteArray());
 
     Update update = new Update();
     update.setFilename(updateDto.getFilename());
@@ -44,7 +45,9 @@ public class UpdateServiceImpl implements UpdateService {
         .findFirst()
         .orElseThrow();
 
-    return new ByteArrayResource(latestUpdate.getUpdate(), latestUpdate.getFilename());
+    byte[] file = Base64.getDecoder().decode(latestUpdate.getUpdate());
+
+    return new ByteArrayResource(file, latestUpdate.getFilename());
   }
 
   @Override
