@@ -39,7 +39,7 @@ public class PlantController {
 
     @PostMapping("/addPlant")
     public String addPlant(PlantDto plantDto) {
-        PlantDto savedPlant = plantService.addPlant(plantDto);
+        PlantDto _ = plantService.addPlant(plantDto);
 
         return "redirect:/";
     }
