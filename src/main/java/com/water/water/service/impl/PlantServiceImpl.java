@@ -1,6 +1,7 @@
 package com.water.water.service.impl;
 
 import com.water.water.mappers.PlantMapper;
+import com.water.water.model.Plant;
 import com.water.water.model.dtos.PlantDto;
 import com.water.water.repository.PlantRepository;
 import com.water.water.service.PlantService;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -19,35 +21,48 @@ public class PlantServiceImpl implements PlantService {
 
 	@Override
 	public List<PlantDto> getAllPlants() {
-		return mockData();
+
+		return plantRepository
+				.findAll()
+				.stream()
+				.map(plantMapper::plantToPlantDto)
+				.collect(Collectors.toList());
 	}
 
-	private List<PlantDto> mockData() {
+	@Override
+	public PlantDto addPlant(PlantDto plantDto) {
 
-		PlantDto plantDto1 = new PlantDto() {
-			{
-				setId(String.valueOf(UUID.randomUUID()));
-				setName("Plant 1");
-				setDescription("Description 1");
-			}
-		};
-
-		PlantDto plantDto2 = new PlantDto() {
-			{
-				setId(String.valueOf(UUID.randomUUID()));
-				setName("Plant 2");
-				setDescription("Description 2");
-			}
-		};
-
-		PlantDto plantDto3 = new PlantDto() {
-			{
-				setId(String.valueOf(UUID.randomUUID()));
-				setName("Plant 3");
-				setDescription("Description 3");
-			}
-		};
-
-		return List.of(plantDto1, plantDto2, plantDto3);
+		Plant newPlant = plantMapper.plantDtoToPlant(plantDto);
+		Plant persistedPlant = plantRepository.save(newPlant);
+		return plantMapper.plantToPlantDto(persistedPlant);
 	}
+
+//	private List<PlantDto> mockData() {
+//
+//		PlantDto plantDto1 = new PlantDto() {
+//			{
+//				setId(String.valueOf(UUID.randomUUID()));
+//				setName("Plant 1");
+//				setDescription("Description 1");
+//			}
+//		};
+//
+//		PlantDto plantDto2 = new PlantDto() {
+//			{
+//				setId(String.valueOf(UUID.randomUUID()));
+//				setName("Plant 2");
+//				setDescription("Description 2");
+//			}
+//		};
+//
+//		PlantDto plantDto3 = new PlantDto() {
+//			{
+//				setId(String.valueOf(UUID.randomUUID()));
+//				setName("Plant 3");
+//				setDescription("Description 3");
+//			}
+//		};
+//
+//		return List.of(plantDto1, plantDto2, plantDto3);
+//	}
 }

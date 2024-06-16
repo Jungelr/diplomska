@@ -1,20 +1,20 @@
 <div class="container">
     <div class="col-4">
-        <form>
-            <form>
-                <label for="name" class="form-label">Plant Name:</label><br>
-                <input type="text" id="name" name="name"><br>
-                <label for="description" class="form-label">Description:</label><br>
-                <input type="text" id="description" name="description"><br>
+        <form action="/addPlant" method="post">
+            <label for="name" class="form-label">Plant Name:</label><br>
+            <input type="text" id="name" name="name"><br>
+            <label for="description" class="form-label">Description:</label><br>
+            <input type="text" id="description" name="description"><br>
 
-                <label for="min" class="form-label">Min</label><br>
-                <input type="range" class="form-range" min="0" max="5" id="min"><br>
+            <label for="min" class="form-label">Min</label><br>
+            <input type="range" class="form-range" min="0" max="5" id="min"><br>
 
-                <label for="max" class="form-label">Max</label><br>
-                <input type="range" class="form-range" min="0" max="5" id="max"><br>
+            <label for="max" class="form-label">Max</label><br>
+            <input type="range" class="form-range" min="0" max="5" id="max"><br>
 
-                <button type="submit">Submit</button>
-            </form>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+            <button type="submit">Submit</button>
         </form>
     </div>
 </div>

@@ -1,6 +1,6 @@
 <div class="container">
     <th:block th:each="plant, iter: ${plants}" th:remove="tag">
-        <div class="row" th:if="${iter.index % 3 == 0}">
+        <div class="row pb-2 pt-2" th:if="${iter.index % 3 == 0}">
             <div class="col-4" th:if="${plants.get(iter.index) != null}">
                 <div class="card">
                     <div class="card-body">
@@ -18,7 +18,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-4" th:if="${plants.get(iter.index + 1) != null}">
+            <div class="col-4" th:if="${iter.index + 1 < iter.size}">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title" th:text="${plants.get(iter.index + 1).getName()}"></h5>
@@ -35,7 +35,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-4" th:if="${plants.get(iter.index + 2) != null}">
+            <div class="col-4" th:if="${iter.index + 2 < iter.size}">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title" th:text="${plants.get(iter.index + 2).getName()}"></h5>

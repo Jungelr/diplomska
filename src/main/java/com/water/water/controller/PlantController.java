@@ -37,6 +37,13 @@ public class PlantController {
         return "plantForm";
     }
 
+    @PostMapping("/addPlant")
+    public String addPlant(PlantDto plantDto) {
+        plantService.addPlant(plantDto);
+
+        return "redirect:/";
+    }
+
     @PostMapping("furtherInfo")
     public String furtherInfo() {
         return "furtherInfo";
