@@ -2,7 +2,6 @@ package com.water.water.mappers;
 
 import com.water.water.model.Plant;
 import com.water.water.model.dtos.PlantDto;
-import org.apache.catalina.util.StringUtil;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
