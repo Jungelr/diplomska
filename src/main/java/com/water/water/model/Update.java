@@ -21,6 +21,6 @@ public class Update {
   private String filename;
 
   @Lob
-  @Column(name = "update", columnDefinition="bytea")
+  @Column(name = "update", columnDefinition="text")
   private byte[] update;
 }
