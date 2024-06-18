@@ -7,11 +7,8 @@ services:
       - 8443:8443
     volumes:
       - ${KEY_STORE_PATH}:/etc/ssl/certs/springboot.p12
-      - /dev/gpiomem:/dev/gpiomem
-      - /dev/gpiochip0:/dev/gpiochip0
-      - /dev/gpiochip1:/dev/gpiochip1
-      - /proc/device-tree/model:/proc/device-tree/model
     restart: always
+    privileged: true
     depends_on:
       - db
     environment:
