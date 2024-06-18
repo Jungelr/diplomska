@@ -21,7 +21,7 @@ public class SecurityConfiguration {
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
 		return httpSecurity
-				.csrf(csrf -> csrf.ignoringRequestMatchers("/update/upload"))
+				.csrf(csrf -> csrf.ignoringRequestMatchers("/update/upload", "/api/**"))
 				.requiresChannel( channel -> channel.anyRequest().requiresSecure())
 				.httpBasic(Customizer.withDefaults())
 				.formLogin(Customizer.withDefaults())
@@ -30,6 +30,9 @@ public class SecurityConfiguration {
 				.authorizeHttpRequests(auths -> auths
 						.requestMatchers("/update/upload").hasRole("JENKINS")
 						.requestMatchers("/update/latest/**").hasRole("ARDUINO_USER")
+						.requestMatchers("/api/**").hasRole("ARDUINO_USER")
+						.requestMatchers("/webjars/**").authenticated()
+						.requestMatchers("/h2-console/**").authenticated()
 						.anyRequest().authenticated())
 				.build();
 	}

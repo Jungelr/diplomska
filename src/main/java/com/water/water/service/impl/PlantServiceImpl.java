@@ -1,9 +1,13 @@
 package com.water.water.service.impl;
 
-import com.water.water.mappers.PlantMapper;
+import com.water.water.mappers.PlantDataMapper;
+import com.water.water.mappers.PlantStateMapper;
 import com.water.water.model.Plant;
+import com.water.water.model.PlantState;
 import com.water.water.model.dtos.PlantDto;
-import com.water.water.repository.PlantRepository;
+import com.water.water.model.dtos.PlantStateDto;
+import com.water.water.repository.PlantDataRepository;
+import com.water.water.repository.PlantStateRepository;
 import com.water.water.service.PlantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,53 +19,50 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PlantServiceImpl implements PlantService {
 
-	private final PlantRepository plantRepository;
-	private final PlantMapper plantMapper;
+	private final PlantDataRepository plantDataRepository;
+	private final PlantDataMapper plantDataMapper;
+	private final PlantStateRepository plantStateRepository;
+	private final PlantStateMapper plantStateMapper;
 
 	@Override
 	public List<PlantDto> getAllPlants() {
 
-		return plantRepository
+		return plantDataRepository
 				.findAll()
 				.stream()
-				.map(plantMapper::plantToPlantDto)
+				.map(plantDataMapper::plantToPlantDto)
 				.collect(Collectors.toList());
 	}
 
 	@Override
 	public PlantDto addPlant(PlantDto plantDto) {
 
-		Plant newPlant = plantMapper.plantDtoToPlant(plantDto);
-		Plant persistedPlant = plantRepository.save(newPlant);
-		return plantMapper.plantToPlantDto(persistedPlant);
+		Plant newPlant = plantDataMapper.plantDtoToPlant(plantDto);
+		Plant persistedPlant = plantDataRepository.save(newPlant);
+		return plantDataMapper.plantToPlantDto(persistedPlant);
 	}
 
-//	private List<PlantDto> mockData() {
-//
-//		PlantDto plantDto1 = new PlantDto() {
-//			{
-//				setId(String.valueOf(UUID.randomUUID()));
-//				setName("Plant 1");
-//				setDescription("Description 1");
-//			}
-//		};
-//
-//		PlantDto plantDto2 = new PlantDto() {
-//			{
-//				setId(String.valueOf(UUID.randomUUID()));
-//				setName("Plant 2");
-//				setDescription("Description 2");
-//			}
-//		};
-//
-//		PlantDto plantDto3 = new PlantDto() {
-//			{
-//				setId(String.valueOf(UUID.randomUUID()));
-//				setName("Plant 3");
-//				setDescription("Description 3");
-//			}
-//		};
-//
-//		return List.of(plantDto1, plantDto2, plantDto3);
-//	}
+	@Override
+	public PlantDto getPlant(String id) {
+		return plantDataRepository
+				.findById(id)
+				.map(plantDataMapper::plantToPlantDto)
+				.orElseThrow();
+	}
+
+	@Override
+	public PlantStateDto getPlantState(String id) {
+		return plantStateRepository
+				.findById(id)
+				.map(plantStateMapper::mapFromEntity)
+				.orElseThrow();
+	}
+
+	@Override
+	public void savePlantState(PlantStateDto plantStateDto) {
+
+		PlantState plantStateEntity = plantStateMapper.mapToEntity(plantStateDto);
+
+		plantStateRepository.save(plantStateEntity);
+	}
 }

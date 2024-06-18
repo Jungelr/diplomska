@@ -10,7 +10,7 @@ import org.thymeleaf.util.StringUtils;
 import java.util.UUID;
 
 @Mapper
-public interface PlantMapper {
+public interface PlantDataMapper {
 
 	PlantDto plantToPlantDto(Plant plant);
 
