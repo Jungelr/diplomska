@@ -10,6 +10,7 @@ services:
       - /dev/gpiomem:/dev/gpiomem
       - /dev/gpiochip0:/dev/gpiochip0
       - /dev/gpiochip1:/dev/gpiochip1
+      - /proc/device-tree/model:/proc/device-tree/model
     restart: always
     depends_on:
       - db
