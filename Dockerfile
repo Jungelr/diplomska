@@ -9,4 +9,5 @@ RUN mkdir -p /usr/lib/jvm
 RUN tar -zxf jdk-*_linux-aarch64_bin.tar.gz -C /usr/lib/jvm
 ENV JAVA_HOME="/usr/lib/jvm/jdk-22.0.1"
 ENV PATH="${JAVA_HOME}/bin:${PATH}"
+COPY target/*.jar app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
