@@ -8,6 +8,8 @@ services:
     volumes:
       - ${KEY_STORE_PATH}:/etc/ssl/certs/springboot.p12
       - /dev/gpiomem:/dev/gpiomem
+      - /dev/gpiochip0:/dev/gpiochip0
+      - /dev/gpiochip1:/dev/gpiochip1
     restart: always
     depends_on:
       - db
