@@ -21,7 +21,7 @@ public class Pi4jConfiguration {
   }
 
   @Bean
-  @Profile("local")
+  @Profile("!prod")
   public DigitalOutput pumpMock() {
 
     DigitalOutput digitalOutput = mock(DigitalOutput.class);
