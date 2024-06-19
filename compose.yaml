@@ -7,8 +7,7 @@ services:
       - 8443:8443
     volumes:
       - ${KEY_STORE_PATH}:/etc/ssl/certs/springboot.p12
-    cap_add:
-      - CAP_SYS_RAWIO
+    privileged: true
     restart: always
     depends_on:
       - db
