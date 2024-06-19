@@ -61,7 +61,7 @@ public class PumpServiceImpl implements PumpService {
     return new PumpAccessDto(pumpClaimRepository.findById(id).isPresent());
   }
 
-  @Scheduled(cron = "*/10 * * * * *")
+  @Scheduled(cron = "* */10 * * * *")
   public void removeAbandonedClaims() {
     synchronized (pumpClaimCounterService) {
       long deletedClaims = pumpClaimRepository.deleteAllByLastModifiedBefore(LocalDateTime.now().minusMinutes(10));

@@ -1,6 +1,8 @@
 package com.water.water.configuration;
 
 import com.pi4j.Pi4J;
+import com.pi4j.context.Context;
+import com.pi4j.io.gpio.digital.DigitalInput;
 import com.pi4j.io.gpio.digital.DigitalOutput;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,8 +18,21 @@ public class Pi4jConfiguration {
 
   @Bean
   @Profile("prod")
-  public DigitalOutput pump() {
-    return Pi4J.newAutoContext().digitalOutput().create(PIN_PUMP);
+  public Context createContext() {
+    return Pi4J.newAutoContext();
+  }
+
+
+  @Bean
+  @Profile("prod")
+  public DigitalOutput pump(Context context) {
+    return context.digitalOutput().create(PIN_PUMP);
+  }
+
+  @Bean
+  @Profile("prod")
+  public DigitalInput test(Context context) {
+    return context.digitalInput().create(11);
   }
 
   @Bean
