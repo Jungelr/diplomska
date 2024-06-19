@@ -7,8 +7,9 @@ services:
       - 8443:8443
     volumes:
       - ${KEY_STORE_PATH}:/etc/ssl/certs/springboot.p12
+      - /sys/devices/platform/soc/fe200000.gpio:/sys/devices/platform/soc/fe200000.gpip
+      - /sys/class/gpio:/sys/class/gpio
     restart: always
-    privileged: true
     depends_on:
       - db
     environment:
