@@ -26,13 +26,13 @@ public class Pi4jConfiguration {
   @Bean
   @Profile("prod")
   public DigitalOutput pump(Context context) {
-    return context.digitalOutput().create(PIN_PUMP);
+    return context.digitalOutput().create(11);
   }
 
   @Bean
   @Profile("prod")
   public DigitalInput test(Context context) {
-    return context.digitalInput().create(11);
+    return context.digitalInput().create(PIN_PUMP);
   }
 
   @Bean
