@@ -46,9 +46,9 @@ public class PumpServiceImpl implements PumpService {
         pumpClaimRepository.save(pumpClaim);
 
         if (digitalOutput == null) {
-          digitalOutput = context.getContext().digitalOutput().create(7);
           digitalInput.shutdown(context.getContext());
           digitalInput = null;
+          digitalOutput = context.getContext().digitalOutput().create(7);
         }
 
         return new PumpAccessDto(true);
@@ -69,6 +69,7 @@ public class PumpServiceImpl implements PumpService {
 
       if (pumpClaimCounterService.isClaimsCounterZero() && digitalInput == null) {
         digitalOutput.shutdown(context.getContext());
+        digitalOutput = null;
         digitalInput = context.getContext().digitalInput().create(7);
       }
     }
