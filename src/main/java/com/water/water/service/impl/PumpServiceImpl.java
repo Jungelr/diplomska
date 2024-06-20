@@ -1,12 +1,14 @@
 package com.water.water.service.impl;
 
-import com.pi4j.io.IOType;
+import com.pi4j.io.gpio.digital.DigitalInput;
+import com.pi4j.io.gpio.digital.DigitalOutput;
 import com.water.water.configuration.Pi4jContext;
 import com.water.water.model.PumpClaim;
 import com.water.water.model.dtos.PumpAccessDto;
 import com.water.water.repository.PumpClaimRepository;
 import com.water.water.service.PumpClaimCounterService;
 import com.water.water.service.PumpService;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,15 @@ public class PumpServiceImpl implements PumpService {
 
   private final PumpClaimCounterService pumpClaimCounterService;
   private final Pi4jContext context;
+  private DigitalOutput digitalOutput;
+  private DigitalInput digitalInput;
+
+  @PostConstruct
+  void init() {
+    digitalInput = context.getContext().digitalInput().create(7);
+    digitalOutput = null;
+  }
+
   public PumpAccessDto acquirePump(String id) {
     synchronized (pumpClaimCounterService) {
       if (pumpClaimCounterService.isClaimable()) {
@@ -34,7 +45,11 @@ public class PumpServiceImpl implements PumpService {
 
         pumpClaimRepository.save(pumpClaim);
 
-        context.getContext().create("7", IOType.DIGITAL_OUTPUT);
+        if (digitalOutput == null) {
+          digitalOutput = context.getContext().digitalOutput().create(7);
+          digitalInput.shutdown(context.getContext());
+          digitalInput = null;
+        }
 
         return new PumpAccessDto(true);
       }
@@ -52,8 +67,9 @@ public class PumpServiceImpl implements PumpService {
         pumpClaimCounterService.decrementClaims();
       });
 
-      if (pumpClaimCounterService.isClaimsCounterZero()) {
-        context.getContext().create("7", IOType.DIGITAL_INPUT);
+      if (pumpClaimCounterService.isClaimsCounterZero() && digitalInput == null) {
+        digitalOutput.shutdown(context.getContext());
+        digitalInput = context.getContext().digitalInput().create(7);
       }
     }
   }
