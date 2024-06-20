@@ -1,7 +1,7 @@
 package com.water.water.service.impl;
 
-import com.pi4j.io.gpio.digital.DigitalOutput;
-import com.pi4j.io.gpio.digital.DigitalState;
+import com.pi4j.io.IOType;
+import com.water.water.configuration.Pi4jContext;
 import com.water.water.model.PumpClaim;
 import com.water.water.model.dtos.PumpAccessDto;
 import com.water.water.repository.PumpClaimRepository;
@@ -22,9 +22,7 @@ public class PumpServiceImpl implements PumpService {
   private final PumpClaimRepository pumpClaimRepository;
 
   private final PumpClaimCounterService pumpClaimCounterService;
-  private final DigitalOutput pump;
-
-  @Override
+  private final Pi4jContext context;
   public PumpAccessDto acquirePump(String id) {
     synchronized (pumpClaimCounterService) {
       if (pumpClaimCounterService.isClaimable()) {
@@ -36,7 +34,7 @@ public class PumpServiceImpl implements PumpService {
 
         pumpClaimRepository.save(pumpClaim);
 
-        pump.state(DigitalState.HIGH);
+        context.getContext().create("7", IOType.DIGITAL_OUTPUT);
 
         return new PumpAccessDto(true);
       }
@@ -46,13 +44,16 @@ public class PumpServiceImpl implements PumpService {
   }
 
   @Override
+  @Transactional
   public void releasePump(String id) {
     synchronized (pumpClaimCounterService) {
-      pumpClaimRepository.deleteById(id);
-      pumpClaimCounterService.decrementClaims();
+      pumpClaimRepository.findById(id).ifPresent((_) -> {
+        pumpClaimRepository.deleteById(id);
+        pumpClaimCounterService.decrementClaims();
+      });
 
       if (pumpClaimCounterService.isClaimsCounterZero()) {
-        pump.state(DigitalState.LOW);
+        context.getContext().create("7", IOType.DIGITAL_INPUT);
       }
     }
   }
