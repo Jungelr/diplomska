@@ -31,8 +31,8 @@ public class SecurityConfiguration {
 						.requestMatchers("/update/upload").hasRole("JENKINS")
 						.requestMatchers("/update/latest/**").hasRole("ARDUINO_USER")
 						.requestMatchers("/api/**").hasRole("ARDUINO_USER")
-						.requestMatchers("/webjars/**").authenticated()
-						.requestMatchers("/h2-console/**").authenticated()
+						.requestMatchers("/webjars/**").permitAll()
+						.requestMatchers("/h2-console/**").permitAll()
 						.anyRequest().authenticated())
 				.build();
 	}

@@ -30,8 +30,8 @@ public class PumpServiceImpl implements PumpService {
 
   @PostConstruct
   void init() {
-    digitalInput = null;
-    digitalOutput = context.getContext().digitalOutput().create(7).low();
+    digitalInput = context.getContext().digitalInput().create(7);
+    digitalOutput = null;
   }
 
   public PumpAccessDto acquirePump(String id) {
