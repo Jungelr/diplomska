@@ -1,7 +1,6 @@
 package com.water.water.configuration;
 
 import com.pi4j.Pi4J;
-import com.pi4j.context.Context;
 import com.pi4j.io.gpio.digital.DigitalInput;
 import com.pi4j.io.gpio.digital.DigitalOutput;
 import com.pi4j.io.gpio.digital.DigitalState;
@@ -19,15 +18,15 @@ public class Pi4jConfiguration {
 
   @Bean
   @Profile("prod")
-  public Context createContext() {
-    return Pi4J.newAutoContext();
+  public Pi4jContext createContext() {
+    return new Pi4jContext(Pi4J.newAutoContext());
   }
 
 
   @Bean
   @Profile("prod")
-  public DigitalOutput pump(Context context) {
-    DigitalOutput output = context.dout().create(11);
+  public DigitalOutput pump(Pi4jContext context) {
+    DigitalOutput output = context.getContext().dout().create(PIN_PUMP);
     output.config().shutdownState(DigitalState.LOW);
     output.addListener(System.out::println);
 
@@ -36,8 +35,8 @@ public class Pi4jConfiguration {
 
   @Bean
   @Profile("prod")
-  public DigitalInput test(Context context) {
-    return context.digitalInput().create(PIN_PUMP);
+  public DigitalInput test(Pi4jContext context) {
+    return context.getContext().digitalInput().create(11);
   }
 
   @Bean
