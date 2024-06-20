@@ -4,6 +4,7 @@ import com.pi4j.Pi4J;
 import com.pi4j.context.Context;
 import com.pi4j.io.gpio.digital.DigitalInput;
 import com.pi4j.io.gpio.digital.DigitalOutput;
+import com.pi4j.io.gpio.digital.DigitalState;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -26,7 +27,11 @@ public class Pi4jConfiguration {
   @Bean
   @Profile("prod")
   public DigitalOutput pump(Context context) {
-    return context.digitalOutput().create(11);
+    DigitalOutput output = context.dout().create(11);
+    output.config().shutdownState(DigitalState.LOW);
+    output.addListener(System.out::println);
+
+    return output;
   }
 
   @Bean

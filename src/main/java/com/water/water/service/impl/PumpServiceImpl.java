@@ -1,6 +1,7 @@
 package com.water.water.service.impl;
 
 import com.pi4j.io.gpio.digital.DigitalOutput;
+import com.pi4j.io.gpio.digital.DigitalState;
 import com.water.water.model.PumpClaim;
 import com.water.water.model.dtos.PumpAccessDto;
 import com.water.water.repository.PumpClaimRepository;
@@ -9,6 +10,7 @@ import com.water.water.service.PumpService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.stream.LongStream;
@@ -34,7 +36,7 @@ public class PumpServiceImpl implements PumpService {
 
         pumpClaimRepository.save(pumpClaim);
 
-        pump.high();
+        pump.state(DigitalState.HIGH);
 
         return new PumpAccessDto(true);
       }
@@ -50,7 +52,7 @@ public class PumpServiceImpl implements PumpService {
       pumpClaimCounterService.decrementClaims();
 
       if (pumpClaimCounterService.isClaimsCounterZero()) {
-        pump.low();
+        pump.state(DigitalState.LOW);
       }
     }
   }
@@ -62,6 +64,7 @@ public class PumpServiceImpl implements PumpService {
   }
 
   @Scheduled(cron = "* */10 * * * *")
+  @Transactional
   public void removeAbandonedClaims() {
     synchronized (pumpClaimCounterService) {
       long deletedClaims = pumpClaimRepository.deleteAllByLastModifiedBefore(LocalDateTime.now().minusMinutes(10));
