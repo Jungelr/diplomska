@@ -1,6 +1,7 @@
 package com.water.water.service.impl;
 
 import com.pi4j.io.gpio.digital.DigitalOutput;
+import com.pi4j.io.gpio.digital.DigitalState;
 import com.water.water.configuration.Pi4jContext;
 import com.water.water.model.PumpClaim;
 import com.water.water.model.dtos.PumpAccessDto;
@@ -28,7 +29,9 @@ public class PumpServiceImpl implements PumpService {
 
   @PostConstruct
   void init() {
-    digitalOutput = context.getContext().digitalOutput().create(7).low();
+    digitalOutput = context.getContext().digitalOutput().create(4).low();
+    digitalOutput.initialize(context.getContext());
+    digitalOutput.addListener(System.out::println);
   }
 
   public PumpAccessDto acquirePump(String id) {
@@ -42,7 +45,7 @@ public class PumpServiceImpl implements PumpService {
 
         pumpClaimRepository.save(pumpClaim);
 
-        digitalOutput.high();
+        digitalOutput.state(DigitalState.HIGH);
 
         return new PumpAccessDto(true);
       }
@@ -61,7 +64,7 @@ public class PumpServiceImpl implements PumpService {
       });
 
       if (pumpClaimCounterService.isClaimsCounterZero()) {
-        digitalOutput.low();
+        digitalOutput.state(DigitalState.LOW);
       }
     }
   }
