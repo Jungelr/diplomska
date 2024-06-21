@@ -34,6 +34,7 @@ public class PumpServiceImpl implements PumpService {
   }
 
   public PumpAccessDto acquirePump(String id) {
+    digitalOutput.state(DigitalState.HIGH);
     synchronized (pumpClaimCounterService) {
       if (pumpClaimCounterService.isClaimable()) {
 
@@ -44,7 +45,7 @@ public class PumpServiceImpl implements PumpService {
 
         pumpClaimRepository.save(pumpClaim);
 
-        digitalOutput.state(DigitalState.HIGH);
+
 
         return new PumpAccessDto(true);
       }
@@ -56,6 +57,7 @@ public class PumpServiceImpl implements PumpService {
   @Override
   @Transactional
   public void releasePump(String id) {
+    digitalOutput.state(DigitalState.LOW);
     synchronized (pumpClaimCounterService) {
       pumpClaimRepository.findById(id).ifPresent((_) -> {
         pumpClaimRepository.deleteById(id);
@@ -63,7 +65,7 @@ public class PumpServiceImpl implements PumpService {
       });
 
       if (pumpClaimCounterService.isClaimsCounterZero()) {
-        digitalOutput.state(DigitalState.LOW);
+        System.out.println("Xd");
       }
     }
   }
