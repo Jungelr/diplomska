@@ -28,7 +28,7 @@ public class PumpServiceImpl implements PumpService {
 
   @PostConstruct
   void init() {
-    digitalOutput = context.getContext().digitalOutput().create(7).off();
+    digitalOutput = context.getContext().digitalOutput().create(7).low();
   }
 
   public PumpAccessDto acquirePump(String id) {
