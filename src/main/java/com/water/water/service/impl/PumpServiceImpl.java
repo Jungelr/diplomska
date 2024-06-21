@@ -1,6 +1,5 @@
 package com.water.water.service.impl;
 
-import com.pi4j.io.gpio.digital.DigitalInput;
 import com.pi4j.io.gpio.digital.DigitalOutput;
 import com.water.water.configuration.Pi4jContext;
 import com.water.water.model.PumpClaim;
