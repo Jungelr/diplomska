@@ -26,12 +26,10 @@ public class PumpServiceImpl implements PumpService {
   private final PumpClaimCounterService pumpClaimCounterService;
   private final Pi4jContext context;
   private DigitalOutput digitalOutput;
-  private DigitalInput digitalInput;
 
   @PostConstruct
   void init() {
-    digitalInput = context.getContext().digitalInput().create(7);
-    digitalOutput = null;
+    digitalOutput = context.getContext().digitalOutput().create(7).low();
   }
 
   public PumpAccessDto acquirePump(String id) {
@@ -45,11 +43,7 @@ public class PumpServiceImpl implements PumpService {
 
         pumpClaimRepository.save(pumpClaim);
 
-        if (digitalOutput == null) {
-          digitalInput.shutdown(context.getContext());
-          digitalInput = null;
-          digitalOutput = context.getContext().digitalOutput().create(7);
-        }
+        digitalOutput.high();
 
         return new PumpAccessDto(true);
       }
@@ -67,10 +61,8 @@ public class PumpServiceImpl implements PumpService {
         pumpClaimCounterService.decrementClaims();
       });
 
-      if (pumpClaimCounterService.isClaimsCounterZero() && digitalInput == null) {
-        digitalOutput.shutdown(context.getContext());
-        digitalOutput = null;
-        digitalInput = context.getContext().digitalInput().create(7);
+      if (pumpClaimCounterService.isClaimsCounterZero()) {
+        digitalOutput.low();
       }
     }
   }
