@@ -30,7 +30,6 @@ public class PumpServiceImpl implements PumpService {
   @PostConstruct
   void init() {
     digitalOutput = context.getContext().digitalOutput().create(4).low();
-    digitalOutput.initialize(context.getContext());
     digitalOutput.addListener(System.out::println);
   }
 
