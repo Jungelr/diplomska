@@ -1,14 +1,11 @@
 package com.water.water.service.impl;
 
-import com.pi4j.io.gpio.digital.DigitalOutput;
-import com.pi4j.io.gpio.digital.DigitalState;
-import com.water.water.configuration.Pi4jContext;
 import com.water.water.model.PumpClaim;
 import com.water.water.model.dtos.PumpAccessDto;
 import com.water.water.repository.PumpClaimRepository;
 import com.water.water.service.PumpClaimCounterService;
 import com.water.water.service.PumpService;
-import jakarta.annotation.PostConstruct;
+import com.water.water.service.PumpSwitchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -22,19 +19,10 @@ import java.util.stream.LongStream;
 public class PumpServiceImpl implements PumpService {
 
   private final PumpClaimRepository pumpClaimRepository;
-
   private final PumpClaimCounterService pumpClaimCounterService;
-  private final Pi4jContext context;
-  private DigitalOutput digitalOutput;
-
-  @PostConstruct
-  void init() {
-    digitalOutput = context.getContext().digitalOutput().create(27);
-    digitalOutput.addListener(System.out::println);
-  }
+  private final PumpSwitchService pumpSwitchService;
 
   public PumpAccessDto acquirePump(String id) {
-    digitalOutput.state(DigitalState.HIGH);
     synchronized (pumpClaimCounterService) {
       if (pumpClaimCounterService.isClaimable()) {
 
@@ -45,7 +33,7 @@ public class PumpServiceImpl implements PumpService {
 
         pumpClaimRepository.save(pumpClaim);
 
-
+        pumpSwitchService.on();
 
         return new PumpAccessDto(true);
       }
@@ -57,7 +45,6 @@ public class PumpServiceImpl implements PumpService {
   @Override
   @Transactional
   public void releasePump(String id) {
-    digitalOutput.state(DigitalState.LOW);
     synchronized (pumpClaimCounterService) {
       pumpClaimRepository.findById(id).ifPresent((_) -> {
         pumpClaimRepository.deleteById(id);
@@ -65,7 +52,7 @@ public class PumpServiceImpl implements PumpService {
       });
 
       if (pumpClaimCounterService.isClaimsCounterZero()) {
-        System.out.println("Xd");
+        pumpSwitchService.off();
       }
     }
   }
