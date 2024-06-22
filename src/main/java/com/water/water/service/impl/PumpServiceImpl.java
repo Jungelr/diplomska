@@ -6,6 +6,7 @@ import com.water.water.repository.PumpClaimRepository;
 import com.water.water.service.PumpClaimCounterService;
 import com.water.water.service.PumpService;
 import com.water.water.service.PumpSwitchService;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,11 @@ public class PumpServiceImpl implements PumpService {
   private final PumpClaimRepository pumpClaimRepository;
   private final PumpClaimCounterService pumpClaimCounterService;
   private final PumpSwitchService pumpSwitchService;
+
+  @PostConstruct
+  void init() {
+    pumpClaimRepository.deleteAll();
+  }
 
   public PumpAccessDto acquirePump(String id) {
     synchronized (pumpClaimCounterService) {
