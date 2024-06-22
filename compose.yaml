@@ -32,5 +32,4 @@ services:
     image: jungelr/pumpwebserver:latest
     container_name: pump
     restart: unless-stopped
-    volumes:
-      - /dev/mem:/dev/mem
+    privileged: true
