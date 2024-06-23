@@ -65,4 +65,9 @@ public class PlantServiceImpl implements PlantService {
 
 		plantStateRepository.save(plantStateEntity);
 	}
+
+	@Override
+	public void deletePlant(String id) {
+		plantDataRepository.deleteById(id);
+	}
 }

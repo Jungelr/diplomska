@@ -5,9 +5,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
@@ -18,7 +20,6 @@ public class UpdateController {
   private final UpdateService updateService;
 
   @PostMapping("/upload")
-  @PreAuthorize("hasRole('JENKINS')")
   public ResponseEntity<Void> uploadUpdate(@RequestParam("file") MultipartFile file) {
 
     updateService.uploadUpdate(file.getResource());
@@ -27,7 +28,6 @@ public class UpdateController {
   }
 
   @GetMapping("/latest")
-  @PreAuthorize("hasRole('ARDUINO_USER')")
   public ResponseEntity<Resource> getLatestUpdate() {
 
     return ResponseEntity
@@ -37,7 +37,6 @@ public class UpdateController {
   }
 
   @GetMapping("/latest/hash")
-  @PreAuthorize("hasRole('ARDUINO_USER')")
   public ResponseEntity<String> getLatestUpdateHash() {
 
     return ResponseEntity.ok(updateService.getLatestUpdateHash());

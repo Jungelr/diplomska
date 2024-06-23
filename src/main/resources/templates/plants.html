@@ -7,14 +7,16 @@
                         <h5 class="card-title" th:text="${plants.get(iter.index).getName()}"></h5>
                         <h6 class="card-subtitle mb-2 text-muted" th:text="${plants.get(iter.index).getId()}"></h6>
                         <p class="card-text" th:text="${plants.get(iter.index).getDescription()}"></p>
-                        <p class="card-text">
-                            <label class="form-label">Min</label>
-                            <input type="range" class="form-range" min="0" max="5">
-
-                            <label class="form-label">Max</label>
-                            <input type="range" class="form-range" min="0" max="5">
-                        </p>
-                        <a href="#" class="card-link">Edit</a>
+                        <p class="card-text" th:text="'Watering levels: ' + ${plants.get(iter.index).getMinWatering()} + ' - ' + ${plants.get(iter.index).getMaxWatering()}"></p>
+                        <p class="card-text" th:text="'Sensor levels: ' + ${plants.get(iter.index).getMinSensorReading()} + ' - ' + ${plants.get(iter.index).getMaxSensorReading()}"></p>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12 d-flex flex-row justify-content-end">
+                                    <button th:hx-get="'/editPlant/' + ${plants.get(iter.index).getId()}" hx-trigger="click" hx-target=".mainView" hx-swap="innerHTML" class="btn btn-primary">Edit</button>
+                                    <button th:hx-post="'/deletePlant/' + ${plants.get(iter.index).getId()}" hx-trigger="click" hx-target=".mainView" hx-swap="innerHTML" type="button" class="btn btn-secondary mx-1">Delete</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -24,14 +26,16 @@
                         <h5 class="card-title" th:text="${plants.get(iter.index + 1).getName()}"></h5>
                         <h6 class="card-subtitle mb-2 text-muted" th:text="${plants.get(iter.index + 1).getId()}"></h6>
                         <p class="card-text" th:text="${plants.get(iter.index + 1).getDescription()}"></p>
-                        <p class="card-text">
-                            <label class="form-label">Min</label>
-                            <input type="range" class="form-range" min="0" max="5">
-
-                            <label class="form-label">Max</label>
-                            <input type="range" class="form-range" min="0" max="5">
-                        </p>
-                        <a href="#" class="card-link">Edit</a>
+                        <p class="card-text" th:text="'Watering levels: ' + ${plants.get(iter.index + 1).getMinWatering()} + ' - ' + ${plants.get(iter.index + 1).getMaxWatering()}"></p>
+                        <p class="card-text" th:text="'Sensor levels: ' + ${plants.get(iter.index + 1).getMinSensorReading()} + ' - ' + ${plants.get(iter.index + 1).getMaxSensorReading()}"></p>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12 d-flex flex-row justify-content-end">
+                                    <button th:hx-get="'/editPlant/' + ${plants.get(iter.index + 1).getId()}" hx-trigger="click" hx-target=".mainView" hx-swap="innerHTML" class="btn btn-primary">Edit</button>
+                                    <button th:hx-post="'/deletePlant/' + ${plants.get(iter.index + 1).getId()}" hx-trigger="click" hx-target=".mainView" hx-swap="innerHTML" type="button" class="btn btn-secondary mx-1">Delete</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -41,14 +45,16 @@
                         <h5 class="card-title" th:text="${plants.get(iter.index + 2).getName()}"></h5>
                         <h6 class="card-subtitle mb-2 text-muted" th:text="${plants.get(iter.index + 2).getId()}"></h6>
                         <p class="card-text" th:text="${plants.get(iter.index + 2).getDescription()}"></p>
-                        <p class="card-text">
-                            <label class="form-label">Min</label>
-                            <input type="range" class="form-range" min="0" max="5">
-
-                            <label class="form-label">Max</label>
-                            <input type="range" class="form-range" min="0" max="5">
-                        </p>
-                        <a href="#" class="card-link">Edit</a>
+                        <p class="card-text" th:text="'Watering levels: ' + ${plants.get(iter.index + 2).getMinWatering()} + ' - ' + ${plants.get(iter.index + 2).getMaxWatering()}"></p>
+                        <p class="card-text" th:text="'Sensor levels: ' + ${plants.get(iter.index + 2).getMinSensorReading()} + ' - ' + ${plants.get(iter.index + 2).getMaxSensorReading()}"></p>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12 d-flex flex-row justify-content-end">
+                                    <button th:hx-get="'/editPlant/' + ${plants.get(iter.index + 2).getId()}" hx-trigger="click" hx-target=".mainView" hx-swap="innerHTML" class="btn btn-primary">Edit</button>
+                                    <button th:hx-post="'/deletePlant/' + ${plants.get(iter.index + 2).getId()}" hx-trigger="click" hx-target=".mainView" hx-swap="innerHTML" type="button" class="btn btn-secondary mx-1">Delete</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

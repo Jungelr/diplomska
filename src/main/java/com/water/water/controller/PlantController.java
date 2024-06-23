@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
@@ -41,7 +42,32 @@ public class PlantController {
     public String addPlant(PlantDto plantDto) {
         PlantDto _ = plantService.addPlant(plantDto);
 
-        return "redirect:/";
+        return "redirect:/plants";
+    }
+
+    @GetMapping("/editPlant/{id}")
+    public String editPlant(Model model, @PathVariable String id) {
+        PlantDto plantDto = plantService.getPlant(id);
+
+        model.addAttribute("plant", plantDto);
+
+        return "plantForm";
+    }
+
+    @PostMapping("/editPlant")
+    public String editPlant(PlantDto plantDto) {
+
+        PlantDto _ = plantService.addPlant(plantDto);
+
+        return "redirect:/plants";
+    }
+
+    @PostMapping("/deletePlant/{id}")
+    public String deletePlant(@PathVariable String id) {
+
+        plantService.deletePlant(id);
+
+        return "redirect:/plants";
     }
 
     @PostMapping("furtherInfo")

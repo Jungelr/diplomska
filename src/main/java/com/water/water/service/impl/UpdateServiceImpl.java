@@ -26,12 +26,12 @@ public class UpdateServiceImpl implements UpdateService {
 
     MessageDigest digest = MessageDigest.getInstance("SHA-256");
 
-    byte[] file = Base64.getEncoder().encode(updateDto.getContentAsByteArray());
+    byte[] file =updateDto.getContentAsByteArray();
 
     Update update = new Update();
     update.setFilename(updateDto.getFilename());
-    update.setUpdate(file);
-    update.setHash(new String(digest.digest(file)));
+    update.setUpdate(Base64.getEncoder().encode(file));
+    update.setHash(new String(Base64.getEncoder().encode(digest.digest(file))));
 
     updateRepository.deleteAll();
     updateRepository.saveAndFlush(update);
@@ -52,11 +52,15 @@ public class UpdateServiceImpl implements UpdateService {
 
   @Override
   public String getLatestUpdateHash() {
-    return updateRepository
+    String hash = updateRepository
         .findAll()
         .stream()
         .findFirst()
-        .orElseThrow()
-        .getHash();
+        .map(Update::getHash)
+        .orElseThrow();
+
+    System.out.println(hash);
+
+    return hash;
   }
 }

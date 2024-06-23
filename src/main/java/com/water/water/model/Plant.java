@@ -21,4 +21,6 @@ public class Plant {
 	private String description;
 	private Integer minWatering;
 	private Integer maxWatering;
+	private Integer minSensorReading;
+	private Integer maxSensorReading;
 }

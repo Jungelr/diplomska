@@ -12,5 +12,7 @@ public class PlantDto {
 	private String description;
 	private Integer minWatering;
 	private Integer maxWatering;
+	private Integer minSensorReading;
+	private Integer maxSensorReading;
 }
 

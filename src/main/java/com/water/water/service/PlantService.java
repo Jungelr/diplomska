@@ -16,4 +16,6 @@ public interface PlantService {
 	PlantStateDto getPlantState(String id);
 
 	void savePlantState(PlantStateDto plantStateDto);
+
+	void deletePlant(String id);
 }
