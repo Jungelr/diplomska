@@ -28,8 +28,13 @@ public class PumpServiceImpl implements PumpService {
     pumpClaimRepository.deleteAll();
   }
 
+  @Transactional
   public PumpAccessDto acquirePump(String id) {
     synchronized (pumpClaimCounterService) {
+      if (pumpClaimRepository.findById(id).isPresent()) {
+        return new PumpAccessDto(true);
+      }
+
       if (pumpClaimCounterService.isClaimable()) {
 
         pumpClaimCounterService.incrementClaims();

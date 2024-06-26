@@ -26,7 +26,7 @@ public class UpdateServiceImpl implements UpdateService {
 
     MessageDigest digest = MessageDigest.getInstance("SHA-256");
 
-    byte[] file =updateDto.getContentAsByteArray();
+    byte[] file = updateDto.getContentAsByteArray();
 
     Update update = new Update();
     update.setFilename(updateDto.getFilename());
